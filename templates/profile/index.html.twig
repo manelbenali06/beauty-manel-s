@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProfileController!{% endblock %}
+
+{% block body %}
+    <h1>Profile</h1>
+
+    <p>
+        Adresse email : {{ user.email}}
+    </p>
+    <a href="{{ path('app_forgot_password_request') }}" class="btn btn-primary">Reinitialiser mon mot de passe</a>
+
+    <h1 class="mt-5">Historique des commandes</h1>
+
+    <table class="table">
+        <tbody>
+        {% for order in user.orders %}
+            <tr>
+                <td>Commende référence : {{ order.reference }}</td>
+                <td>{{ order.paidAt ? order.paidAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ order.amount }}</td>
+            </tr>
+            {% for item in order.orderItems %}
+                <tr>
+                    <td> - {{ item.product.name }}</td>
+                    <td>{{ item.quantity }} fois</td>
+                    <td>{{ item.product.price }}</td>
+                </tr>
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
